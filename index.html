@@ -44,7 +44,7 @@
         }
 
         .header .logo {
-            width: 180px; /* Ajusta el tamaño de tu logo aquí */
+            width: 180px; 
             height: auto;
             margin-bottom: 15px;
             display: block;
@@ -158,11 +158,18 @@
 <script>
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        
         const user = document.getElementById('usuario').value;
         const pass = document.getElementById('password').value;
 
-        if(user === "admin" && pass === "1234") {
-            alert("Acceso exitoso");
+        // Definición de administradores permitidos
+        const esAdmin1 = (user === "admin" && pass === "1234");
+        const esAdmin2 = (user === "#RCPR7273" && pass === "CAMR720424PY3");
+
+        if (esAdmin1 || esAdmin2) {
+            alert("Acceso exitoso. Bienvenido, " + user);
+            // Ejemplo de redirección:
+            // window.location.href = "panel_principal.html";
         } else {
             alert("Usuario o contraseña incorrectos");
         }
