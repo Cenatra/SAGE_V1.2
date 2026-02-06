@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Asistencias</title>
+    <title>Sistema de Asistencias | Login</title>
     <style>
-        /* Reset básico */
+        :root {
+            --primary-color: #0066ff;
+            --primary-hover: #0052cc;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --text-main: #333;
+            --text-muted: #666;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
@@ -18,127 +25,179 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f2f5;
+            background: var(--bg-gradient);
         }
 
         .login-container {
             background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 400px;
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
         }
 
         .login-container img {
-            width: 60px;
-            margin-bottom: 20px;
+            width: 70px;
+            margin-bottom: 1.5rem;
         }
 
         .login-container h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
         }
 
         .login-container p {
-            color: #555;
-            margin-bottom: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
         }
 
-        .login-container input {
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
+        /* Estilo de los Inputs */
+        .input-group {
+            position: relative;
+            margin-bottom: 1.2rem;
         }
 
-        .login-container button {
+        .input-group svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            fill: #a0aec0;
+            width: 20px;
+            transition: fill 0.3s;
+        }
+
+        .input-group input {
             width: 100%;
-            padding: 12px;
-            background-color: #0066ff;
+            padding: 14px 15px 14px 45px;
+            border-radius: 10px;
+            border: 2px solid #edf2f7;
+            background-color: #f8fafc;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+        }
+
+        .input-group input:focus + svg {
+            fill: var(--primary-color);
+        }
+
+        /* Botón */
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
             color: #fff;
             font-size: 16px;
+            font-weight: 600;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background 0.3s, transform 0.1s;
+            margin-top: 0.5rem;
         }
 
-        .login-container button:hover {
-            background-color: #0052cc;
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         .login-footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #999;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #a0aec0;
+            letter-spacing: 0.5px;
         }
 
-        /* Iconos */
-        .input-icon {
-            position: relative;
+        /* Pequeña animación de error */
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
         }
 
-        .input-icon input {
-            padding-left: 40px;
-        }
-
-        .input-icon svg {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            fill: #888;
-            width: 20px;
-            height: 20px;
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
         }
     </style>
 </head>
 <body>
 
-<div class="login-container">
-    <!-- Icono principal -->
-    <img src="https://img.icons8.com/ios-filled/100/0066ff/attendance.png" alt="Sistema de Asistencias">
+<div class="login-container" id="card">
+    <img src="https://img.icons8.com/fluency/100/attendance.png" alt="Logo">
 
-    <h1>Sistema de Asistencias</h1>
-    <p>Ingrese sus credenciales para continuar</p>
+    <h1>Bienvenido</h1>
+    <p>Identifícate para registrar tu asistencia</p>
 
     <form id="loginForm">
-        <div class="input-icon">
+        <div class="input-group">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            <input type="text" id="usuario" placeholder="Ingrese su usuario" required>
+            <input type="text" id="usuario" placeholder="Usuario" required autocomplete="username">
         </div>
 
-        <div class="input-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17c1.66 0 2.99-1.34 2.99-3l.01-4c0-1.66-1.34-3-3-3s-3 1.34-3 3v4c0 1.66 1.34 3 3 3zm6-9v-2c0-2.76-2.24-5-5-5s-5 2.24-5 5v2h-1c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-1z"/></svg>
-            <input type="password" id="contraseña" placeholder="Ingrese su contraseña" required>
+        <div class="input-group">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+            <input type="password" id="contraseña" placeholder="Contraseña" required autocomplete="current-password">
         </div>
 
-        <button type="submit">Iniciar Sesión</button>
+        <button type="submit" id="btnSubmit">Iniciar Sesión</button>
     </form>
 
     <div class="login-footer">
-        Sistema de Control de Asistencias v1.0
+        &copy; 2024 • Control de Asistencias v1.2
     </div>
 </div>
 
 <script>
     const form = document.getElementById('loginForm');
+    const card = document.getElementById('card');
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         const usuario = document.getElementById('usuario').value;
         const contraseña = document.getElementById('contraseña').value;
+        const btn = document.getElementById('btnSubmit');
 
-        // Aquí iría la validación real con backend
-        if(usuario === "admin" && contraseña === "1234") {
-            alert("Inicio de sesión exitoso");
-        } else {
-            alert("Usuario o contraseña incorrectos");
-        }
+        // Simulación de carga
+        btn.innerHTML = "Verificando...";
+        btn.style.opacity = "0.7";
+
+        setTimeout(() => {
+            if(usuario === "admin" && contraseña === "1234") {
+                btn.innerHTML = "¡Éxito!";
+                btn.style.backgroundColor = "#28a745";
+                setTimeout(() => {
+                    alert("Acceso concedido");
+                    // window.location.href = "dashboard.html";
+                }, 500);
+            } else {
+                btn.innerHTML = "Iniciar Sesión";
+                btn.style.opacity = "1";
+                card.classList.add('shake');
+                setTimeout(() => card.classList.remove('shake'), 500);
+                alert("Credenciales inválidas");
+            }
+        }, 800);
     });
 </script>
 
