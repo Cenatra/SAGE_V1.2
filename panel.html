@@ -24,42 +24,87 @@
 </header>
 
 <nav class="tabs">
-    <a class="active">Registro</a>
-    <a>Empleados</a>
-    <a>Historial</a>
-    <a>Estadísticas</a>
+    <a class="tab active" onclick="mostrarSeccion('registro', this)">Registro</a>
+    <a class="tab" onclick="mostrarSeccion('empleados', this)">Empleados</a>
+    <a class="tab" onclick="mostrarSeccion('historial', this)">Historial</a>
+    <a class="tab" onclick="mostrarSeccion('estadisticas', this)">Estadísticas</a>
 </nav>
 
 <main class="container">
 
-    <section class="card main-card">
-        <div class="card-header">
-            <div class="icon">🕒</div>
-            <div>
-                <h2>Registro de Asistencia</h2>
-                <span id="fecha"></span>
+    <!-- SECCIÓN REGISTRO -->
+    <section id="registro" class="seccion">
+
+        <div class="stats">
+            <div class="stat-card">
+                <h4>Total Empleados</h4>
+                <div class="stat">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Asistencias</h4>
+                <div class="stat">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Ausencias</h4>
+                <div class="stat">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Tardanzas</h4>
+                <div class="stat">0</div>
             </div>
         </div>
 
-        <div class="clock" id="reloj">00:00:00</div>
+        <div class="card metrics">
+            <h3>Métricas Adicionales</h3>
+            <div class="metrics-grid">
+                <div>
+                    <span>Promedio de Horas</span>
+                    <h2>N/A</h2>
+                </div>
+                <div>
+                    <span>Tasa de Asistencia</span>
+                    <h2 class="green">0%</h2>
+                </div>
+                <div>
+                    <span>Total Registros</span>
+                    <h2 class="purple">0</h2>
+                </div>
+            </div>
+        </div>
 
-        <label>Seleccionar Empleado</label>
-        <select>
-            <option>-- Seleccione un empleado --</option>
-            <option>Juan Pérez</option>
-            <option>Ana López</option>
-        </select>
+    </section>
 
-        <div class="buttons">
-            <button class="btn entrada">Entrada</button>
-            <button class="btn salida">Salida</button>
+    <!-- SECCIÓN EMPLEADOS -->
+    <section id="empleados" class="seccion" style="display:none;">
+        <div class="card">
+            <h2>Empleados</h2>
+            <p>Aquí podrás agregar, editar o eliminar empleados.</p>
+            <button onclick="alert('Función de agregar empleado próximamente')">
+                Agregar empleado
+            </button>
+        </div>
+    </section>
+
+    <!-- SECCIÓN HISTORIAL -->
+    <section id="historial" class="seccion" style="display:none;">
+        <div class="card">
+            <h2>Historial</h2>
+            <p>Aquí se mostrará el historial de asistencias.</p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN ESTADÍSTICAS -->
+    <section id="estadisticas" class="seccion" style="display:none;">
+        <div class="card">
+            <h2>Estadísticas</h2>
+            <p>Aquí se mostrarán gráficas y reportes.</p>
         </div>
     </section>
 
 </main>
 
-<script src="script.js"></script>
 <script>
+    // Protección de sesión
     const usuario = localStorage.getItem("usuario");
     if (!usuario) {
         window.location.href = "index.html";
@@ -71,6 +116,18 @@
     function cerrarSesion() {
         localStorage.removeItem("usuario");
         window.location.href = "index.html";
+    }
+
+    // Navegación entre secciones
+    function mostrarSeccion(id, elemento) {
+        const secciones = document.querySelectorAll(".seccion");
+        secciones.forEach(sec => sec.style.display = "none");
+
+        document.getElementById(id).style.display = "block";
+
+        const tabs = document.querySelectorAll(".tab");
+        tabs.forEach(tab => tab.classList.remove("active"));
+        elemento.classList.add("active");
     }
 </script>
 
