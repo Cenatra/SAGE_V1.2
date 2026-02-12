@@ -10,7 +10,7 @@
 
 <header class="topbar">
     <div class="logo">
-        <div class="logo-icon">🏢</div>
+        <div class="logo-icon">📄</div>
         <div>
             <h1>Sistema de Asistencias</h1>
             <span>Gestión de asistencia de empleados</span>
@@ -18,8 +18,11 @@
     </div>
 
     <div class="user-info">
-        <div id="usuarioActivo"></div>
-        <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+        <div>
+            <small>Administrador</small><br>
+            <strong id="usuarioActivo"></strong>
+        </div>
+        <button class="logout" onclick="cerrarSesion()">Cerrar Sesión</button>
     </div>
 </header>
 
@@ -35,82 +38,107 @@
     <!-- SECCIÓN REGISTRO -->
     <section id="registro" class="seccion">
 
-        <div class="stats">
-            <div class="stat-card">
-                <h4>Total Empleados</h4>
-                <div class="stat">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Asistencias</h4>
-                <div class="stat">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Ausencias</h4>
-                <div class="stat">0</div>
-            </div>
-            <div class="stat-card">
-                <h4>Tardanzas</h4>
-                <div class="stat">0</div>
-            </div>
+        <div class="top-actions">
+            <button class="qr-btn">Escanear Código QR</button>
         </div>
 
-        <div class="card metrics">
-            <h3>Métricas Adicionales</h3>
-            <div class="metrics-grid">
-                <div>
-                    <span>Promedio de Horas</span>
-                    <h2>N/A</h2>
-                </div>
-                <div>
-                    <span>Tasa de Asistencia</span>
-                    <h2 class="green">0%</h2>
-                </div>
-                <div>
-                    <span>Total Registros</span>
-                    <h2 class="purple">0</h2>
+        <div class="grid-main">
+
+            <!-- TARJETA RELOJ -->
+            <div class="card clock-card">
+                <h3>Registro de Asistencia</h3>
+                <span id="fecha"></span>
+
+                <div class="clock" id="reloj">00:00:00</div>
+
+                <label>Seleccionar Empleado</label>
+                <select>
+                    <option>-- Seleccione un empleado --</option>
+                    <option>Juan Pérez</option>
+                    <option>Ana López</option>
+                </select>
+
+                <div class="buttons">
+                    <button class="btn entrada">Entrada</button>
+                    <button class="btn salida">Salida</button>
                 </div>
             </div>
-        </div>
 
+            <!-- MÉTRICAS -->
+            <div class="right-panel">
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <span>Total Empleados</span>
+                        <h2>0</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span>Asistencias</span>
+                        <h2>0</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span>Ausencias</span>
+                        <h2>0</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span>Tardanzas</span>
+                        <h2>0</h2>
+                    </div>
+                </div>
+
+                <div class="card metrics">
+                    <h3>Métricas Adicionales</h3>
+                    <div class="metrics-grid">
+                        <div>
+                            <span>Promedio de Horas</span>
+                            <h2 class="blue">N/A</h2>
+                        </div>
+                        <div>
+                            <span>Tasa de Asistencia</span>
+                            <h2 class="green">0%</h2>
+                        </div>
+                        <div>
+                            <span>Total Registros</span>
+                            <h2 class="purple">0</h2>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </section>
 
-    <!-- SECCIÓN EMPLEADOS -->
+    <!-- OTRAS SECCIONES -->
     <section id="empleados" class="seccion" style="display:none;">
         <div class="card">
             <h2>Empleados</h2>
-            <p>Aquí podrás agregar, editar o eliminar empleados.</p>
-            <button onclick="alert('Función de agregar empleado próximamente')">
-                Agregar empleado
-            </button>
+            <p>Módulo de empleados.</p>
         </div>
     </section>
 
-    <!-- SECCIÓN HISTORIAL -->
     <section id="historial" class="seccion" style="display:none;">
         <div class="card">
             <h2>Historial</h2>
-            <p>Aquí se mostrará el historial de asistencias.</p>
+            <p>Módulo de historial.</p>
         </div>
     </section>
 
-    <!-- SECCIÓN ESTADÍSTICAS -->
     <section id="estadisticas" class="seccion" style="display:none;">
         <div class="card">
             <h2>Estadísticas</h2>
-            <p>Aquí se mostrarán gráficas y reportes.</p>
+            <p>Módulo de estadísticas.</p>
         </div>
     </section>
 
 </main>
 
+<script src="script.js"></script>
 <script>
-    // Protección de sesión
     const usuario = localStorage.getItem("usuario");
     if (!usuario) {
         window.location.href = "index.html";
     } else {
-        document.getElementById("usuarioActivo").innerHTML =
-            "<strong>" + usuario + "</strong>";
+        document.getElementById("usuarioActivo").textContent = usuario;
     }
 
     function cerrarSesion() {
@@ -118,7 +146,6 @@
         window.location.href = "index.html";
     }
 
-    // Navegación entre secciones
     function mostrarSeccion(id, elemento) {
         const secciones = document.querySelectorAll(".seccion");
         secciones.forEach(sec => sec.style.display = "none");
